@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AuraStream — Live & On-Demand</title>
+<meta name="theme-color" content="#0b0b14">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+  tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+    aura: { bg:'#0b0b14', card:'#15152200', panel:'#171728', line:'#262640',
+            primary:'#7c5cff', primary2:'#5b3df0', cyan:'#22d3ee', pink:'#ff4d8d' } } } } };
+</script>
+<style>
+  :root { color-scheme: dark; }
+  body { background:#0b0b14; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  .panel { background:#171728; border:1px solid #262640; }
+  .btn { transition:.15s; }
+  .btn:active { transform:scale(.97); }
+  .grad { background:linear-gradient(135deg,#7c5cff,#22d3ee); }
+  .grad-text { background:linear-gradient(135deg,#a78bfa,#22d3ee); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card-hover { transition:.2s; }
+  .card-hover:hover { transform:translateY(-4px); border-color:#7c5cff; }
+  ::-webkit-scrollbar { width:10px; height:10px; }
+  ::-webkit-scrollbar-thumb { background:#2b2b45; border-radius:8px; }
+  .live-dot { width:8px;height:8px;border-radius:50%;background:#ff3b5c;box-shadow:0 0 0 0 rgba(255,59,92,.6);animation:pulse 1.4s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,59,92,.6)} 70%{box-shadow:0 0 0 10px rgba(255,59,92,0)} 100%{box-shadow:0 0 0 0 rgba(255,59,92,0)} }
+  .tab-active { color:#fff; background:#7c5cff22; }
+  .fade-in { animation:fade .25s ease; }
+  @keyframes fade { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+  input,select,textarea { color-scheme: dark; }
+</style>
+</head>
+<body class="text-slate-200 min-h-screen">
+
+<!-- ============ AUTH SCREEN ============ -->
+<div id="auth-screen" class="min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md panel rounded-2xl p-7 fade-in">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-11 h-11 rounded-xl grad flex items-center justify-center text-white text-xl"><i class="fa-solid fa-play"></i></div>
+      <div>
+        <h1 class="text-2xl font-extrabold grad-text">AuraStream</h1>
+        <p class="text-xs text-slate-400">Live & on-demand streaming</p>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-5 bg-[#0f0f1c] p-1 rounded-xl">
+      <button id="tab-login" class="flex-1 py-2 rounded-lg font-semibold tab-active btn">Sign In</button>
+      <button id="tab-register" class="flex-1 py-2 rounded-lg font-semibold text-slate-400 btn">Create Account</button>
+    </div>
+
+    <!-- Login form -->
+    <form id="form-login" class="space-y-3">
+      <div>
+        <label class="text-xs text-slate-400">Email</label>
+        <input name="email" type="email" required placeholder="you@example.com" class="w-full mt-1 bg-[#0f0f1c] border border-aura-line rounded-lg px-3 py-2.5 outline-none focus:border-aura-primary">
+      </div>
+      <div>
+        <label class="text-xs text-slate-400">Password</label>
+        <input name="password" type="password" required placeholder="••••••••" class="w-full mt-1 bg-[#0f0f1c] border border-aura-line rounded-lg px-3 py-2.5 outline-none focus:border-aura-primary">
+      </div>
+      <button class="w-full grad text-white font-bold py-3 rounded-lg btn">Sign In</button>
+    </form>
+
+    <!-- Register form -->
+    <form id="form-register" class="space-y-3 hidden">
+      <div>
+        <label class="text-xs text-slate-400">Full name</label>
+        <input name="name" required placeholder="Ada Lovelace" class="w-full mt-1 bg-[#0f0f1c] border border-aura-line rounded-lg px-3 py-2.5 outline-none focus:border-aura-primary">
+      </div>
+      <div>
+        <label class="text-xs text-slate-400">Email</label>
+        <input name="email" type="email" required placeholder="you@example.com" class="w-full mt-1 bg-[#0f0f1c] border border-aura-line rounded-lg px-3 py-2.5 outline-none focus:border-aura-primary">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-slate-400">Country</label>
+          <input name="country" value="Nigeria" class="w-full mt-1 bg-[#0f0f1c] border border-aura-line rounded-lg px-3 py-2.5 outline-none focus:border-aura-primary">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Currency</label>
+          <input name="currency" value="NGN" class="w-full mt-1 bg-[#0f0f1c] border border-aura-line rounded-lg px-3 py-2.5 outline-none focus:border-aura-primary">
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-slate-400">Password <span class="text-slate-500">(min 8 chars)</span></label>
+        <input name="password" type="password" required minlength="8" placeholder="Create a password" class="w-full mt-1 bg-[#0f0f1c] border border-aura-line rounded-lg px-3 py-2.5 outline-none focus:border-aura-primary">
+      </div>
+      <button class="w-full grad text-white font-bold py-3 rounded-lg btn">Create Account</button>
+    </form>
+
+    <p id="auth-msg" class="text-sm mt-3 text-center min-h-[1.25rem]"></p>
+    <p class="text-[11px] text-slate-500 text-center mt-2">By continuing you agree to the AuraStream Terms & Privacy Policy.</p>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="app" class="hidden min-h-screen">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-30 backdrop-blur bg-[#0b0b14e6] border-b border-aura-line">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center gap-3">
+      <div class="flex items-center gap-2 mr-2">
+        <div class="w-9 h-9 rounded-lg grad flex items-center justify-center text-white"><i class="fa-solid fa-play"></i></div>
+        <span class="font-extrabold text-lg grad-text hidden sm:block">AuraStream</span>
+      </div>
+      <nav id="nav" class="flex items-center gap-1 overflow-x-auto flex-1"></nav>
+      <div class="relative">
+        <button id="profile-btn" class="flex items-center gap-2 btn">
+          <img id="nav-avatar" class="w-9 h-9 rounded-full object-cover border border-aura-line" src="" alt="">
+        </button>
+        <div id="profile-menu" class="hidden absolute right-0 mt-2 w-56 panel rounded-xl p-2 shadow-xl z-40">
+          <div class="px-3 py-2 border-b border-aura-line mb-1">
+            <p id="pm-name" class="font-semibold text-sm truncate"></p>
+            <p id="pm-plan" class="text-xs text-slate-400"></p>
+          </div>
+          <button data-go="profile" class="w-full text-left px-3 py-2 rounded-lg hover:bg-[#20203a] text-sm btn"><i class="fa-solid fa-user w-5"></i> My Profile</button>
+          <button data-go="studio" class="w-full text-left px-3 py-2 rounded-lg hover:bg-[#20203a] text-sm btn"><i class="fa-solid fa-video w-5"></i> Creator Studio</button>
+          <button id="logout-btn" class="w-full text-left px-3 py-2 rounded-lg hover:bg-[#2a1620] text-sm text-rose-400 btn"><i class="fa-solid fa-right-from-bracket w-5"></i> Log out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="view" class="max-w-7xl mx-auto px-4 py-6"></main>
+  <footer class="max-w-7xl mx-auto px-4 py-8 text-center text-xs text-slate-500 border-t border-aura-line mt-10">
+    AuraStream · Live browser streaming, uploads & Paystack billing · &copy; 2026
+  </footer>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div id="modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <div id="modal-box" class="w-full max-w-3xl panel rounded-2xl overflow-hidden fade-in max-h-[92vh] overflow-y-auto"></div>
+</div>
+
+<div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[60] space-y-2 pointer-events-none"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
