@@ -10,7 +10,7 @@
     "seed": "node db.js --seed"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=20.x"
   },
   "dependencies": {
     "axios": "^1.7.7",
