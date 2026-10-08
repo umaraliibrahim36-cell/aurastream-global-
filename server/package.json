@@ -1,0 +1,30 @@
+{
+  "name": "aurastream-server",
+  "version": "1.0.0",
+  "description": "AuraStream backend — auth, channels, video upload, live streaming and Paystack payments",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "seed": "node db.js --seed"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^8.7.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "node-media-server": "^2.7.0",
+    "ws": "^8.18.0"
+  }
+}
